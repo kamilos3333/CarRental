@@ -30,4 +30,15 @@ namespace CarRental.Models
         public virtual Car car { get; set; }
         public virtual ApplicationUser user { get; set; }
     }
+
+    public class TempReservation
+    {
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime DateB { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime DateE { get; set; }
+    }
+
 }

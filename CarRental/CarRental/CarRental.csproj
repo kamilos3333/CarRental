@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GridMvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grid.Mvc.3.0.0\lib\net40\GridMvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -175,6 +178,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CarsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -196,14 +200,31 @@
     <Compile Include="Models\Place.cs" />
     <Compile Include="Models\Transmission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\GenericRepository.cs" />
+    <Compile Include="Repository\UnitOfWork.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Gridmvc.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\02abf5f7-b5b4-4843-ab51-0430747a00f5.jpg" />
+    <Content Include="Images\11b88d2f-f5f2-4cd0-83f8-37a3a7c05c75.jpg" />
+    <Content Include="Images\1736ed29-cf18-4ea6-bebf-3817ca407919.png" />
+    <Content Include="Images\35a53d8b-a269-489d-abe7-4c327c3d416d.jpg" />
+    <Content Include="Images\3c799cdf-2b9e-499f-b203-d9cfad8776c7.jpg" />
+    <Content Include="Images\4f929f83-f847-4460-a8d2-b81d48e3efaf.png" />
+    <Content Include="Images\a9636fe3-2738-4a78-8fd2-a2a7296a4edd.jpg" />
+    <Content Include="Images\c557efeb-3910-44b0-9106-28b2b9e440b4.jpg" />
+    <Content Include="Images\ce19e25d-beb0-4002-8a79-9399e39b12f7.jpg" />
+    <Content Include="Images\ec3eac71-c058-4434-8bce-b1273cf72c83.jpg" />
+    <Content Include="Images\f28f955f-ca98-461b-9a56-4426e60b2e3c.jpg" />
+    <Content Include="Images\placeholder.png" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
@@ -215,8 +236,12 @@
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Grid.mvc.readme" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\gridmvc.lang.ru.js" />
+    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -283,11 +308,10 @@
     <Content Include="Views\Cars\_Details.cshtml" />
     <Content Include="Views\Cars\_Edit.cshtml" />
     <Content Include="Views\Shared\_CarList.cshtml" />
-    <Content Include="Views\ReservForms\Create.cshtml" />
-    <Content Include="Views\ReservForms\Delete.cshtml" />
-    <Content Include="Views\ReservForms\Details.cshtml" />
-    <Content Include="Views\ReservForms\Edit.cshtml" />
-    <Content Include="Views\ReservForms\Index.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
+    <Content Include="Views\Home\SearchResult.cshtml" />
+    <Content Include="Views\Home\_CarSearchView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
