@@ -1,0 +1,92 @@
+﻿@model IEnumerable<CarRental.Models.Car>
+@using GridMvc.Html
+
+
+<link href="~/Content/Gridmvc.css" rel="stylesheet" />
+<script src="~/Scripts/gridmvc.min.js"></script>
+
+<br />
+
+<span class="btn btn-primary" style="cursor: pointer" onclick="AddCarModal()">
+    Create new car
+</span>
+
+<br />
+
+<div class="code-cut">
+    @Html.Grid(Model).Columns(Columns => {
+    Columns.Add(c => c.ID_Car).Titled("Id").Filterable(false);
+    Columns.Add().Sanitized(false).Encoded(false).RenderValueAs(o => @<img src="~/Images/@o.Photo" style="width: 90px; height: 60px;" />).Filterable(false);
+    Columns.Add(c => c.Model).Titled("Model").Filterable(false);
+    Columns.Add(c => c.Brand).Titled("Brand").Filterable(false);
+    Columns.Add(c => c.Transmission.Name).Titled("Transmission").Filterable(false);
+    Columns.Add(c => c.CarClass.Name).Titled("Car Class").Filterable(false);
+    Columns.Add(c => c.CarBody.Name).Titled("Car Body").Filterable(false);
+    Columns.Add(c => c.Active).Titled("Active").Filterable(false);
+    Columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<span class="btn btn-secondary" style="cursor: pointer" onclick="EditCarModal(@o.ID_Car)">Edit</span>);
+Columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<span class="btn btn-warning" style="cursor: pointer" onclick="DeleteCar(@o.ID_Car)">Delete</span>);
+}).WithPaging(10).Sortable(true)
+</div>
+
+
+
+<div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="containerModalCreate">
+
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="containerModalEdit">
+
+    </div>
+</div>
+
+<script>
+    function AddCarModal() {
+        $.ajax({
+            url: '/Cars/_Create',
+            dataType: 'html',
+            success: function (data) {
+                $('#containerModalCreate').html(data);
+                $('#insertModal').modal('show');
+            }
+        });
+    };
+
+    function EditCarModal(id) {
+        $.ajax({
+            url: "/Cars/_Edit/" + id,
+            dataType: "html",
+            success: function (data) {
+                $('#containerModalEdit').html(data);
+                $('#editModal').modal('show');
+            }
+        });
+    };
+    
+    function DeleteCar(id) {
+        bootbox.confirm("Are you sure delete this car!", function (result) {
+            if (result) {
+                $.ajax({
+                    url: "/Cars/Delete/" + id,
+                    type: "POST",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.reload(true);
+                        }
+                        else {
+                            alert("Something wrong");
+                        }
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            }
+        });
+    }
+    
+</script>

@@ -1,0 +1,52 @@
+﻿@model CarRental.Models.AdminEditViewModel
+@using CarRental.Controllers
+@{
+    ViewBag.Title = "EditUser";
+}
+
+<div class="form-horizontal">
+    <h1>Edycja użytkownika</h1>
+    @using (Html.BeginForm("SaveUser", "Admin", FormMethod.Post, new
+    {
+        role = "form"
+    }))
+    {
+        @Html.AntiForgeryToken()
+        {
+            var admCtrl = new AdminController();
+            ViewBag.Roles = admCtrl.GetUserRoles(AdminController.AdmUsrRole);
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName)
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @readonly = "readonly", Value = AdminController.AdmUsrName })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.RankName)
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.RankName, (IEnumerable<SelectListItem>)ViewBag.Roles, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email)
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly", Value = AdminController.AdmUsrEmail })
+            </div>
+        </div>
+
+        <input type="submit" value="Zapisz" class="btn btn-success" />
+    }
+    @using (Html.BeginForm("DeleteUser", "Admin", FormMethod.Get, new { role = "form" }))
+    {
+        @Html.TextBoxFor(model => model.RankName, new { @class = "formcontrol", @type = "hidden", Value = AdminController.AdmUsrRole })
+        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @type
+        = "hidden", @readonly = "readonly", Value = AdminController.AdmUsrName })
+        <input type="submit" value="Usuń" class="btn btn-danger" />
+    }
+    <input type="button" value="Wstecz"
+           onclick="location.href='@Url.Action("Index","Admin")'" class="btn btn-default" />
+</div>

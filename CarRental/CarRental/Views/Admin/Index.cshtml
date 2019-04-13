@@ -1,0 +1,11 @@
+﻿@model CarRental.Models.AdminUserViewModel
+@{
+    ViewBag.Title = "Admin Page";
+}
+<div class="userview">
+    @{Html.RenderPartial("ShowUserDetails");
+    }
+</div>
+
+<p class="text-danger">@ViewBag.StatusMessage</p>
+<p class="text-danger">@ViewBag.ErrorMessage</p>
