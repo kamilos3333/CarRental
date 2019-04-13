@@ -187,8 +187,14 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
+    <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\CarBody.cs" />
+    <Compile Include="Models\CarClass.cs" />
+    <Compile Include="Models\ReservForm.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Place.cs" />
+    <Compile Include="Models\Transmission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -276,6 +282,12 @@
     <Content Include="Views\Cars\_Create.cshtml" />
     <Content Include="Views\Cars\_Details.cshtml" />
     <Content Include="Views\Cars\_Edit.cshtml" />
+    <Content Include="Views\Shared\_CarList.cshtml" />
+    <Content Include="Views\ReservForms\Create.cshtml" />
+    <Content Include="Views\ReservForms\Delete.cshtml" />
+    <Content Include="Views\ReservForms\Details.cshtml" />
+    <Content Include="Views\ReservForms\Edit.cshtml" />
+    <Content Include="Views\ReservForms\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

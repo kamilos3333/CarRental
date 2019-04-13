@@ -29,5 +29,13 @@ namespace CarRental.Models
         {
             return new ApplicationDbContext();
         }
+        
+        public System.Data.Entity.DbSet<CarRental.Models.ReservForm> ReservForms { get; set; }
+
+        public System.Data.Entity.DbSet<CarRental.Models.Car> Cars { get; set; }
+
+        public System.Data.Entity.DbSet<CarRental.Models.Place> Places { get; set; }
+
+        //public System.Data.Entity.DbSet<CarRental.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
