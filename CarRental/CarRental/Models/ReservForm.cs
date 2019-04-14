@@ -34,11 +34,17 @@ namespace CarRental.Models
     public class TempReservation
     {
         [Required]
-        [DataType(DataType.Date)]
-        public DateTime DateB { get; set; }
+        public string Place1 { get; set; }
+        [Required]
+        public string Place2 { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        public DateTime DateE { get; set; }
+        public string DateB { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public string DateE { get; set; }
+
+
     }
 
 }

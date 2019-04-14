@@ -1,0 +1,68 @@
+﻿@using CarRental.Models
+
+@{
+    var item = ViewBag.Info;
+}
+
+
+<div style="margin-top: 10px; margin-bottom: 10px;">
+
+</div>
+<table class="table table-sm">
+    <tbody>
+        <tr>
+            <td><i class="iconS far fa-calendar-alt"></i> Pick up date</td>
+            <td>@item.DateB</td>
+        </tr>
+        <tr>
+            <td><i class="iconS far fa-calendar-alt"></i> Dropp off date</td>
+            <td>@item.DateE</td>
+        </tr>
+        <tr>
+            <td><i class="iconS fas fa-plane-departure"></i> Picking up</td>
+            <td>@item.Place1</td>
+        </tr>
+        <tr>
+            <td><i class="iconS fas fa-plane-arrival"></i> Dropping off</td>
+            <td>@item.Place2</td>
+        </tr>
+    </tbody>
+</table>
+
+<div style="width: 100%; display: none; text-align: center;" id="loader">
+    <img src="~/Content/loading-gif.gif" style="width: 230px;" />
+</div>
+
+<div id="border-car"></div>
+
+<script>
+
+    window.onload = function () {
+        $('#loader').show();
+        setTimeout(function () {
+            $.ajax({
+        type: 'POST',
+        url: '@Url.Action("getCars")',
+        dataType: 'json',
+        data: { id: '' },
+       success: function (data) {
+                var items = '';
+           $.each(data, function (i, item) {
+               var path = "@Url.Content("~/Images/")" + item.Photo;
+               var rows = "<div class=\"border-search-result\"><div class=\"card\"><h5 class=\"card-header\">" + item.Model + " " + item.Brand + "</h5><div class=\"card-body\"><div class=\"row\"><div class=\"col-12 col-md-4\"><img src=" + path + " style=\"width: 170px; height: 120px;\" /></div><div class=\"col-6 col-md-8\">.col-6 .col-md-4</div></div></div></div></div><br>";
+               $("#loader").hide();
+               $('#border-car').append(rows);
+                });
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+        }, 2200);
+        return false;
+    }
+
+</script>

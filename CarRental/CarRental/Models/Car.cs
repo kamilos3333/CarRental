@@ -10,7 +10,6 @@ namespace CarRental.Models
     {
         [Key]
         public int ID_Car { get; set; }
-        [Required]
         public string Model { get; set; }
         public string Brand { get; set; }
         [Display(Name = "Transmission")]

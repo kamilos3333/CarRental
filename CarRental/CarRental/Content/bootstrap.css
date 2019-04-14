@@ -73,6 +73,10 @@ body {
     background-color: #fff;
 }
 
+.iconS {
+    color: #ff6a00;
+}
+
 [tabindex="-1"]:focus {
     outline: 0 !important;
 }
@@ -572,6 +576,14 @@ pre {
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
+}
+
+.border-search-result {
+    cursor: pointer;
+}
+
+.border-search-result:hover {
+    border: 2px solid #E95420;
 }
 
 @media (min-width: 576px) {

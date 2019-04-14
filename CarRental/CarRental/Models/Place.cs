@@ -19,4 +19,5 @@ namespace CarRental.Models
         [InverseProperty("place2")]
         public ICollection<ReservForm> frmReservations2 { get; set; }
     }
+    
 }

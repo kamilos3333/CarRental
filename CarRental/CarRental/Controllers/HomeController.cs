@@ -1,11 +1,6 @@
-﻿using CarRental.Models;
-using System;
-using System.Collections.Generic;
+﻿using CarRental.Repository;
 using System.Linq;
-using System.Web;
-using System.Data.Entity;
 using System.Web.Mvc;
-using CarRental.Repository;
 
 namespace CarRental.Controllers
 {
@@ -26,29 +21,7 @@ namespace CarRental.Controllers
             var cars = unitOfWork.CarRepository.GetAll(filter: a => a.Active == true, includeProperties: "CarClass", orderBy: p => p.OrderBy(a => a.CarClass.Name)).ToList();
             return PartialView("_CarList", cars);
         }
-
-        [ChildActionOnly]
-        public ActionResult _CarSearchView()
-        {
-
-            return PartialView("_CarSearchView");
-        }
-
-        public ActionResult SearchResult(DateTime DateB, DateTime DateE)
-        {
-            if (ModelState.IsValid)
-            {
-                TempReservation tmp = new TempReservation
-                {
-                    DateB = DateB,
-                    DateE = DateE
-                };
-                ViewBag.Info = tmp;
-            }
-
-            return View();
-        }
-
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
