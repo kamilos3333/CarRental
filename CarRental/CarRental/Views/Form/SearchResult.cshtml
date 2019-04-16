@@ -2,6 +2,7 @@
 
 @{
     var item = ViewBag.Info;
+    var test = ViewBag.Info2;
 }
 
 
@@ -12,19 +13,19 @@
     <tbody>
         <tr>
             <td><i class="iconS far fa-calendar-alt"></i> Pick up date</td>
-            <td>@item.DateB</td>
+            <td>@Html.TextBox("DateB", "DateB", new { @class = "form-control", @readonly = true })</td>
         </tr>
         <tr>
             <td><i class="iconS far fa-calendar-alt"></i> Dropp off date</td>
-            <td>@item.DateE</td>
+            <td>@Html.TextBox("DateE", "DateE", new { @class = "form-control", @readonly = true })</td>
         </tr>
         <tr>
             <td><i class="iconS fas fa-plane-departure"></i> Picking up</td>
-            <td>@item.Place1</td>
+            <td>@Html.TextBox("Place1", "Place1", new { @class = "form-control", @readonly = true })</td>
         </tr>
         <tr>
             <td><i class="iconS fas fa-plane-arrival"></i> Dropping off</td>
-            <td>@item.Place2</td>
+            <td>@Html.TextBox("Place2", "Place2", new { @class = "form-control", @readonly = true })</td>
         </tr>
     </tbody>
 </table>
@@ -35,8 +36,16 @@
 
 <div id="border-car"></div>
 
-<script>
 
+<div class="modal fade bd-example-modal-lg" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div id="detailsCostModal">
+
+        </div>
+    </div>
+</div>
+
+<script>
     window.onload = function () {
         $('#loader').show();
         setTimeout(function () {
@@ -46,10 +55,14 @@
         dataType: 'json',
         data: { id: '' },
        success: function (data) {
-                var items = '';
+           var items = "";
            $.each(data, function (i, item) {
                var path = "@Url.Content("~/Images/")" + item.Photo;
-               var rows = "<div class=\"border-search-result\"><div class=\"card\"><h5 class=\"card-header\">" + item.Model + " " + item.Brand + "</h5><div class=\"card-body\"><div class=\"row\"><div class=\"col-12 col-md-4\"><img src=" + path + " style=\"width: 170px; height: 120px;\" /></div><div class=\"col-6 col-md-8\">.col-6 .col-md-4</div></div></div></div></div><br>";
+               var description = "<div class=\"row\"><div class=\"col-6\"><p>Transmission</p><p>Car body</p></div><div class=\"col-6\"><p>" + item.Transmission + "</p><p>" + item.CarBody + "</p></div></div>"
+               var rows = "<div onclick=\"detailsCoastModal(" + item.ID + ")\" class=\"border-search-result\"><div class=\"card\"><h5 class=\"card-header\">" + item.Model + " " + item.Brand +
+                   "</h5><div class=\"card-body\"><div class=\"row\"><div class=\"col-12 col-md-4\"><img src=" + path +
+                   " style=\"width: 170px; height: 120px;\" /></div><div class=\"col-6 col-md-8\">" + description +
+                   "</div></div></div></div></div><br>";
                $("#loader").hide();
                $('#border-car').append(rows);
                 });
@@ -64,5 +77,18 @@
         }, 2200);
         return false;
     }
+
+    function detailsCoastModal(ID) {
+        $.ajax({
+            url: "/Form/_DetailsCostView",
+            dataType: "html",
+            data: { ID: ID, place1: $("#Place1").val(), place2: $("#Place2").val() , dateB: $("#DateB").val(), dateE: $("#DateE").val() },
+            success: function (result) {
+                $('#detailsCostModal').html(result);
+                $("#modalDetails").modal("show");
+            }
+        });
+    };
+
 
 </script>

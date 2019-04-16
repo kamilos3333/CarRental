@@ -2,6 +2,7 @@
 using CarRental.Repository;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,45 +19,65 @@ namespace CarRental.Controllers
             return View();
         }
         
-        [ChildActionOnly]
         public ActionResult _CarSearchView()
         {
-
+            ViewBag.PlacesList = new SelectList(unitOfWork.PlaceRepository.GetAll(orderBy: p => p.OrderBy(a=>a.Name)), "Name", "Name");
             return PartialView("_CarSearchView");
         }
 
-        public ActionResult SearchResult(string DateB, string DateE, string Place1, string Place2)
+        public ActionResult SearchResult(DateTime DateB, DateTime DateE, string Place1, string Place2)
         {
             if (ModelState.IsValid)
             {
                 TempReservation tmp = new TempReservation
                 {
+                    Place1 = Place1,
+                    Place2 = Place2,
                     DateB = DateB,
                     DateE = DateE,
-                    Place1 = Place1,
-                    Place2 = Place2
                 };
                 ViewBag.Info = tmp;
             }
-
             return View();
         }
-
-        public JsonResult getCars(string id)
+        
+        public ActionResult _DetailsCostView(int ID, string place1, string place2 ,DateTime dateB, DateTime dateE)
         {
-            var car = unitOfWork.CarRepository.GetAll().Select(x => new
+            var additionalCostPlace = unitOfWork.PlaceRepository.GetAll(filter: a => a.Name == place1).Select(x => x.AddCost).FirstOrDefault();
+            var carCost = unitOfWork.CarRepository.GetAll(includeProperties: "CarClass", filter: a => a.ID_Car == ID).Select(x => x.CarClass.Cost).FirstOrDefault();
+            var totalDaysCount = dateE.Subtract(dateB).TotalDays;
+            var totalDayCost = (totalDaysCount * 85);
+            var totalCost = (decimal)totalDayCost + additionalCostPlace + carCost;
+
+            CostCalculation costCalculation = new CostCalculation
             {
+                additionalCostPlace = additionalCostPlace,
+                totalDayCost = totalDayCost,
+                carCost = carCost,
+                totalCost = totalCost
+            };
+            
+            return PartialView("_DetailsCostView", costCalculation);
+        }
+        
+        public JsonResult getCars() //get car in search result
+        {
+            var car = unitOfWork.CarRepository.GetAll(includeProperties: "CarClass, Transmission, CarBody").Select(x => new
+            {
+                ID = x.ID_Car,
                 Model = x.Model,
                 Brand = x.Brand,
                 Photo = x.Photo,
+                CarBody = x.CarBody.Name,
+                Transmission = x.Transmission.Name,
             }).ToList();
 
             return Json(car, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult getPlace(string term)
+        public JsonResult getPlace(string term) //get places in car rental search textbox
         {
-            var placesList = unitOfWork.PlaceRepository.GetAll(filter: a => a.Name.StartsWith(term), orderBy: o => o.OrderBy(a => a.Name)).Select(x => x.Name).ToList();
+            var placesList = unitOfWork.PlaceRepository.GetAll(filter: a => a.Name.Contains(term), orderBy: o => o.OrderBy(a => a.Name)).Select(x => x.Name).ToList();
             return Json(placesList, JsonRequestBehavior.AllowGet);
         }
 

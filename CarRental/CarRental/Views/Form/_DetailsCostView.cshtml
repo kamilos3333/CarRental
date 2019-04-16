@@ -1,0 +1,50 @@
+﻿@model CarRental.Models.CostCalculation
+@{
+    ViewBag.Title = "_DetailsCostView";
+}
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Cost details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-6"><img src="~/Images/placeholder.png" class="img-fluid" /></div>
+            <div class="col-6">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Car cost
+                            </td>
+                            <td>@Html.DisplayFor(model => model.carCost)</td>
+                        </tr>
+                        <tr>
+                            <td>Additional cost for place</td>
+                            <td>@Html.DisplayFor(model => model.additionalCostPlace)</td>
+                        </tr>
+                        <tr>
+                            <td>Cost per day</td>
+                            <td>@Html.DisplayFor(model => model.totalDayCost)</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Total
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => model.totalCost)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary">SELECT</button>
+    </div>
+</div>

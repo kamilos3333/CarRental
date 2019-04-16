@@ -17,12 +17,12 @@
     @Html.Grid(Model).Columns(Columns => {
     Columns.Add(c => c.ID_Car).Titled("Id").Filterable(false);
     Columns.Add().Sanitized(false).Encoded(false).RenderValueAs(o => @<img src="~/Images/@o.Photo" style="width: 90px; height: 60px;" />).Filterable(false);
-    Columns.Add(c => c.Model).Titled("Model").Filterable(false);
-    Columns.Add(c => c.Brand).Titled("Brand").Filterable(false);
-    Columns.Add(c => c.Transmission.Name).Titled("Transmission").Filterable(false);
-    Columns.Add(c => c.CarClass.Name).Titled("Car Class").Filterable(false);
-    Columns.Add(c => c.CarBody.Name).Titled("Car Body").Filterable(false);
-    Columns.Add(c => c.Active).Titled("Active").Filterable(false);
+    Columns.Add(c => c.Model).Titled("Model").Filterable(true);
+    Columns.Add(c => c.Brand).Titled("Brand").Filterable(true);
+    Columns.Add(c => c.Transmission.Name).Titled("Transmission").Filterable(true);
+    Columns.Add(c => c.CarClass.Name).Titled("Car Class").Filterable(true);
+    Columns.Add(c => c.CarBody.Name).Titled("Car Body").Filterable(true);
+    Columns.Add(c => c.Active).Titled("Active").Filterable(true);
     Columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<span class="btn btn-secondary" style="cursor: pointer" onclick="EditCarModal(@o.ID_Car)">Edit</span>);
 Columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<span class="btn btn-warning" style="cursor: pointer" onclick="DeleteCar(@o.ID_Car)">Delete</span>);
 }).WithPaging(10).Sortable(true)

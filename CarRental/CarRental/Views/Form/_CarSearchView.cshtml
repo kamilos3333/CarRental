@@ -1,0 +1,49 @@
+﻿@model CarRental.Models.TempReservation
+
+
+<div class="form-border">
+    <h2>Search car rental</h2>
+    <div class="container">
+        @using (Html.BeginForm("SearchResult", "Form", FormMethod.Post))
+        {
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Picking up</label>
+                        @Html.DropDownListFor(model => model.Place1, ViewBag.PlacesList as SelectList, new { @class = "form-control selectpicker", @data_width = "auto" })
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Dropping off</label>
+                        @Html.DropDownListFor(model => model.Place2, ViewBag.PlacesList as SelectList, new { @class = "form-control selectpicker", @data_width = "auto" })
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Pick-up date</label>
+                        @Html.EditorFor(model => model.DateB, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>Drop-off date</label>
+                        @Html.EditorFor(model => model.DateE, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Search <i class="fas fa-search"></i></button>
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker({
+            liveSearch: true,
+            showSubtext: true
+        });
+    });
+</script>

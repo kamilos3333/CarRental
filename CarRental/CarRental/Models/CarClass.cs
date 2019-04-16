@@ -14,7 +14,7 @@ namespace CarRental.Models
         public string Name { get; set; }
         [DisplayFormat(DataFormatString = "{0:n}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Currency)]
-        public decimal Coast { get; set; }
+        public decimal Cost { get; set; }
 
         public ICollection<Car> Cars { get; set; }
     }

@@ -582,9 +582,9 @@ pre {
     cursor: pointer;
 }
 
-.border-search-result:hover {
-    border: 2px solid #E95420;
-}
+    .border-search-result:hover {
+        border: 2px solid #E95420;
+    }
 
 @media (min-width: 576px) {
     .container {
@@ -2348,6 +2348,7 @@ textarea.form-control {
     flex-wrap: wrap;
     margin-right: -5px;
     margin-left: -5px;
+    margin-bottom: 1rem;
 }
 
     .form-row > .col,

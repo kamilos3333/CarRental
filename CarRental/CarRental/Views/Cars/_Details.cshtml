@@ -18,6 +18,10 @@
                     <tbody>
                         <tr>
                             <td>Transmission</td>
+                            <td>@Html.DisplayFor(model => model.CarBody.Name)</td>
+                        </tr>
+                        <tr>
+                            <td>Transmission</td>
                             <td>@Html.DisplayFor(model => model.Transmission.Name)</td>
                         </tr>
                         <tr>
@@ -36,14 +40,11 @@
                             <td>
                                 Coast
                             </td>
-                            <td>@Html.DisplayFor(model => model.CarClass.Coast)</td>
+                            <td>@Html.DisplayFor(model => model.CarClass.Cost)</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Select</button>
     </div>
 </div>

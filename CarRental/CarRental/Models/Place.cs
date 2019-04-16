@@ -12,7 +12,7 @@ namespace CarRental.Models
         [Key]
         public int Id_Place { get; set; }
         public string Name { get; set; }
-        public int AddCoast { get; set; }
+        public int AddCost { get; set; }
 
         [InverseProperty("place1")]
         public ICollection<ReservForm> frmReservations1 { get; set; }

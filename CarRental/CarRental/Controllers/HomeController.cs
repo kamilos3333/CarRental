@@ -18,7 +18,7 @@ namespace CarRental.Controllers
         [OutputCache(Duration = 20)]
         public ActionResult _CarList() // Display car list
         {
-            var cars = unitOfWork.CarRepository.GetAll(filter: a => a.Active == true, includeProperties: "CarClass", orderBy: p => p.OrderBy(a => a.CarClass.Name)).ToList();
+            var cars = unitOfWork.CarRepository.GetAll(filter: a => a.Active == true, includeProperties: "CarClass, CarBody", orderBy: p => p.OrderBy(a => a.CarClass.Name)).ToList();
             return PartialView("_CarList", cars);
         }
         
