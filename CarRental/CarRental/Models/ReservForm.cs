@@ -46,8 +46,15 @@ namespace CarRental.Models
         public DateTime DateE { get; set; }
     }
 
-    public class CostCalculation
+    public class SummaryCost
     {
+        public int ID_car { get; set; }
+        public string Place1 { get; set; }
+        public string Place2 { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateB { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateE { get; set; }
         public int additionalCostPlace { get; set; }
         public double totalDayCost { get; set; }
         public decimal carCost { get; set; }

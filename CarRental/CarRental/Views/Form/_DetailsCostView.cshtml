@@ -1,4 +1,5 @@
-﻿@model CarRental.Models.CostCalculation
+﻿@*@model CarRental.Models.SummaryCost*@
+@using CarRental.Models;
 @{
     ViewBag.Title = "_DetailsCostView";
 }
@@ -6,45 +7,92 @@
 
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Cost details</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><span style="font-weight: bold">Cost summary</span> detail</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <div class="row">
-            <div class="col-6"><img src="~/Images/placeholder.png" class="img-fluid" /></div>
-            <div class="col-6">
-                <table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <td>
-                                Car cost
-                            </td>
-                            <td>@Html.DisplayFor(model => model.carCost)</td>
-                        </tr>
-                        <tr>
-                            <td>Additional cost for place</td>
-                            <td>@Html.DisplayFor(model => model.additionalCostPlace)</td>
-                        </tr>
-                        <tr>
-                            <td>Cost per day</td>
-                            <td>@Html.DisplayFor(model => model.totalDayCost)</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Total
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => model.totalCost)
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        @foreach (var item in (List<SummaryCost>)Session["summaryCost"])
+        {
+            <div class="row">
+                <div class="col-6">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Pick up date
+                                </td>
+                                <td>
+                                    @item.DateB
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Dropp off date
+                                </td>
+                                <td>
+                                    @item.DateE
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Picking up
+                                </td>
+                                <td>
+                                    @item.Place1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Dropping off
+                                </td>
+                                <td>
+                                    @item.Place2
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Car cost
+                                </td>
+                                <td>
+                                    @item.carCost €
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Additional cost for place</td>
+                                <td>
+                                    @item.additionalCostPlace €
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Cost per day</td>
+                                <td>
+                                    @item.totalDayCost €
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Total
+                                </td>
+                                <td>
+                                    @item.totalCost €
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        }
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary">SELECT</button>
+        <button type="button" class="btn btn-primary">Confirm</button>
     </div>
 </div>
+

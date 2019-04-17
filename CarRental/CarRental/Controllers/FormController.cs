@@ -48,16 +48,25 @@ namespace CarRental.Controllers
             var totalDaysCount = dateE.Subtract(dateB).TotalDays;
             var totalDayCost = (totalDaysCount * 85);
             var totalCost = (decimal)totalDayCost + additionalCostPlace + carCost;
-
-            CostCalculation costCalculation = new CostCalculation
-            {
-                additionalCostPlace = additionalCostPlace,
-                totalDayCost = totalDayCost,
-                carCost = carCost,
-                totalCost = totalCost
-            };
             
-            return PartialView("_DetailsCostView", costCalculation);
+            List<SummaryCost> summaryCosts = new List<SummaryCost>
+            {
+                new SummaryCost()
+                {
+                    ID_car = ID,
+                    Place1 = place1,
+                    Place2 = place2,
+                    DateB = dateB,
+                    DateE = dateE,
+                    additionalCostPlace = additionalCostPlace,
+                    totalDayCost = totalDayCost,
+                    carCost = carCost,
+                    totalCost = totalCost
+                },
+            };
+            Session["summaryCost"] = summaryCosts;
+
+            return PartialView("_DetailsCostView");
         }
         
         public JsonResult getCars() //get car in search result
@@ -70,16 +79,12 @@ namespace CarRental.Controllers
                 Photo = x.Photo,
                 CarBody = x.CarBody.Name,
                 Transmission = x.Transmission.Name,
+                Cost = x.CarClass.Cost,
             }).ToList();
 
             return Json(car, JsonRequestBehavior.AllowGet);
         }
-
-        public JsonResult getPlace(string term) //get places in car rental search textbox
-        {
-            var placesList = unitOfWork.PlaceRepository.GetAll(filter: a => a.Name.Contains(term), orderBy: o => o.OrderBy(a => a.Name)).Select(x => x.Name).ToList();
-            return Json(placesList, JsonRequestBehavior.AllowGet);
-        }
-
+        
+        
     }
 }

@@ -58,7 +58,7 @@
            var items = "";
            $.each(data, function (i, item) {
                var path = "@Url.Content("~/Images/")" + item.Photo;
-               var description = "<div class=\"row\"><div class=\"col-6\"><p>Transmission</p><p>Car body</p></div><div class=\"col-6\"><p>" + item.Transmission + "</p><p>" + item.CarBody + "</p></div></div>"
+               var description = "<div class=\"row\"><div class=\"col-6\"><p>Transmission</p><p>Car body</p><p>Car cost</p></div><div class=\"col-6\"><p>" + item.Transmission + "</p><p>" + item.CarBody + "</p><p>" + item.Cost + " €</p></div></div>"
                var rows = "<div onclick=\"detailsCoastModal(" + item.ID + ")\" class=\"border-search-result\"><div class=\"card\"><h5 class=\"card-header\">" + item.Model + " " + item.Brand +
                    "</h5><div class=\"card-body\"><div class=\"row\"><div class=\"col-12 col-md-4\"><img src=" + path +
                    " style=\"width: 170px; height: 120px;\" /></div><div class=\"col-6 col-md-8\">" + description +
