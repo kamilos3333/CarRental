@@ -21,12 +21,10 @@ namespace CarRental.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
         public int Cost { get; set; }
-        [ForeignKey("place1")]
-        public int? Id_Place1 { get; set; }
-        public Place place1 { get; set; }
-        [ForeignKey("place2")]
-        public int? Id_Place2 { get; set; }
-        public Place place2 { get; set; }
+        public string place1 { get; set; }
+        public string place2 { get; set; }
+        public string PaymentMethod { get; set; }
+        public string Status { get; set; }
 
         public virtual Car car { get; set; }
         public virtual ApplicationUser user { get; set; }
@@ -60,5 +58,4 @@ namespace CarRental.Models
         public decimal carCost { get; set; }
         public decimal totalCost { get; set; }
     }
-
 }

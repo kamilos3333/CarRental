@@ -13,11 +13,6 @@ namespace CarRental.Models
         public int Id_Place { get; set; }
         public string Name { get; set; }
         public int AddCost { get; set; }
-
-        [InverseProperty("place1")]
-        public ICollection<ReservForm> frmReservations1 { get; set; }
-        [InverseProperty("place2")]
-        public ICollection<ReservForm> frmReservations2 { get; set; }
     }
     
 }

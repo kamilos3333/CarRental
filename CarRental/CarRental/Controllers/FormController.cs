@@ -1,5 +1,6 @@
 ﻿using CarRental.Models;
 using CarRental.Repository;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,6 +13,8 @@ namespace CarRental.Controllers
     public class FormController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
+        protected ApplicationDbContext ApplicationDbContext { get; set; }
+        protected UserManager<ApplicationUser> UserManager { get; set; }
 
         // GET: Form
         public ActionResult Index()
@@ -68,10 +71,61 @@ namespace CarRental.Controllers
 
             return PartialView("_DetailsCostView");
         }
+
+        public ActionResult ContactDetails(string id, UserViewModel model)
+        {
+            if(User.Identity.IsAuthenticated)
+            {
+                var user = UserManager.FindById(id);
+                model.Email = user.Email;
+                model.Name = user.Name;
+                model.Surname = user.Surname;
+                model.PhoneNumber = user.PhoneNumber;
+                model.Email = user.Email;
+                ViewBag.UserModel = model;
+            }
+
+            return View();
+        }
+
+        public ActionResult InsertFormDb(ContactDetails contact)
+        {
+            List<SummaryCost> summaryCosts = (List<SummaryCost>)Session["summaryCost"];
+
+            foreach (SummaryCost reserv in summaryCosts)
+            {
+                ReservForm reservForm = new ReservForm()
+                {
+                    ID_Car = reserv.ID_car,
+                    UserId = User.Identity.GetUserId(),
+                    DateBegin = reserv.DateB,
+                    EndDate = reserv.DateE,
+                    place1 = reserv.Place1,
+                    place2 = reserv.Place2,
+                    Cost = Convert.ToInt32(reserv.totalCost),
+                    PaymentMethod = "Cash",
+                    Status = "Wait"
+                };
+                unitOfWork.ReservFormRepository.Insert(reservForm);
+                unitOfWork.Save();
+                InsertContactDb(reservForm.ID_Reserv, contact);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        public void InsertContactDb(int id, ContactDetails contact)
+        {
+            if (ModelState.IsValid)
+            {
+                contact.ID_Reserv = id;
+            }
+            unitOfWork.ContactRepository.Insert(contact);
+            unitOfWork.Save();
+        }
         
         public JsonResult getCars() //get car in search result
         {
-            var car = unitOfWork.CarRepository.GetAll(includeProperties: "CarClass, Transmission, CarBody").Select(x => new
+            var car = unitOfWork.CarRepository.GetAll(includeProperties: "CarClass, Transmission, CarBody", filter: a => a.Active == true, orderBy: p => p.OrderBy(a => a.CarClass.Name)).Select(x => new
             {
                 ID = x.ID_Car,
                 Model = x.Model,

@@ -15,46 +15,6 @@
     <div class="modal-body">
         @foreach (var item in (List<SummaryCost>)Session["summaryCost"])
         {
-            <div class="row">
-                <div class="col-6">
-                    <table class="table table-striped">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Pick up date
-                                </td>
-                                <td>
-                                    @item.DateB
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Dropp off date
-                                </td>
-                                <td>
-                                    @item.DateE
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Picking up
-                                </td>
-                                <td>
-                                    @item.Place1
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Dropping off
-                                </td>
-                                <td>
-                                    @item.Place2
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-6">
                     <table class="table table-striped">
                         <tbody>
                             <tr>
@@ -87,12 +47,11 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-            </div>
         }
     </div>
+
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Confirm</button>
+        <a href="@Url.Action("ContactDetails","Form")" class="btn btn-primary">Confirm</a>
     </div>
 </div>
 

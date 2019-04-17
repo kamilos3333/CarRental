@@ -15,6 +15,7 @@ namespace CarRental.Repository
         private GenericRepository<CarClass> carClassRepository;
         private GenericRepository<ReservForm> formRepository;
         private GenericRepository<Place> placeRepository;
+        private GenericRepository<ContactDetails> contactRepository;
 
         public GenericRepository<Car> CarRepository
         {
@@ -85,6 +86,18 @@ namespace CarRental.Repository
                     this.placeRepository = new GenericRepository<Place>(db);
                 }
                 return placeRepository;
+            }
+        }
+
+        public GenericRepository<ContactDetails> ContactRepository
+        {
+            get
+            {
+                if (this.contactRepository == null)
+                {
+                    this.contactRepository = new GenericRepository<ContactDetails>(db);
+                }
+                return contactRepository;
             }
         }
 

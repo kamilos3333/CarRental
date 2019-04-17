@@ -197,6 +197,7 @@
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\CarBody.cs" />
     <Compile Include="Models\CarClass.cs" />
+    <Compile Include="Models\ContactDetails.cs" />
     <Compile Include="Models\ReservForm.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -467,6 +468,12 @@
     <Content Include="Scripts\README.md" />
     <Content Include="Views\Form\_DetailsCostView.cshtml" />
     <Content Include="Views\Form\SaveOrder.cshtml" />
+    <Content Include="Views\ContactDetails\Create.cshtml" />
+    <Content Include="Views\ContactDetails\Delete.cshtml" />
+    <Content Include="Views\ContactDetails\Details.cshtml" />
+    <Content Include="Views\ContactDetails\Edit.cshtml" />
+    <Content Include="Views\ContactDetails\Index.cshtml" />
+    <Content Include="Views\Form\ContactDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
