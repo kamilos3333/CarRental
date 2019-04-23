@@ -1,6 +1,7 @@
 ﻿using CarRental.Models;
 using CarRental.Repository;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,13 +14,15 @@ namespace CarRental.Controllers
     public class FormController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
-        protected ApplicationDbContext ApplicationDbContext { get; set; }
-        protected UserManager<ApplicationUser> UserManager { get; set; }
+        ApplicationDbContext context = new ApplicationDbContext();
 
         // GET: Form
+        [Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            var reservs = unitOfWork.ReservFormRepository.GetAll().ToList();
+            return View(reservs);
         }
         
         public ActionResult _CarSearchView()
@@ -28,29 +31,33 @@ namespace CarRental.Controllers
             return PartialView("_CarSearchView");
         }
 
-        public ActionResult SearchResult(DateTime DateB, DateTime DateE, string Place1, string Place2)
+        public ActionResult SearchResult(DateTime DateB, DateTime DateE, TimeSpan TimeB, TimeSpan TimeE, string Place1, string Place2)
         {
+            DateTime DTBegin = DateB + TimeB;
+            DateTime DTEnding = DateE + TimeE;
+            
             if (ModelState.IsValid)
             {
                 TempReservation tmp = new TempReservation
                 {
                     Place1 = Place1,
                     Place2 = Place2,
-                    DateB = DateB,
-                    DateE = DateE,
+                    DateB = DTBegin,
+                    DateE = DTEnding
                 };
                 ViewBag.Info = tmp;
             }
             return View();
         }
         
-        public ActionResult _DetailsCostView(int ID, string place1, string place2 ,DateTime dateB, DateTime dateE)
+        public ActionResult _DetailsCostView(int ID, string place1, string place2, DateTime dateB, DateTime dateE)
         {
             var additionalCostPlace = unitOfWork.PlaceRepository.GetAll(filter: a => a.Name == place1).Select(x => x.AddCost).FirstOrDefault();
             var carCost = unitOfWork.CarRepository.GetAll(includeProperties: "CarClass", filter: a => a.ID_Car == ID).Select(x => x.CarClass.Cost).FirstOrDefault();
-            var totalDaysCount = dateE.Subtract(dateB).TotalDays;
+            var totalDaysCount = dateE.Date.Subtract(dateB.Date).TotalDays;
             var totalDayCost = (totalDaysCount * 85);
             var totalCost = (decimal)totalDayCost + additionalCostPlace + carCost;
+            if(User.Identity.IsAuthenticated) { totalCost = totalCost - 10; }
             
             List<SummaryCost> summaryCosts = new List<SummaryCost>
             {
@@ -76,13 +83,20 @@ namespace CarRental.Controllers
         {
             if(User.Identity.IsAuthenticated)
             {
-                var user = UserManager.FindById(id);
-                model.Email = user.Email;
-                model.Name = user.Name;
-                model.Surname = user.Surname;
-                model.PhoneNumber = user.PhoneNumber;
-                model.Email = user.Email;
-                ViewBag.UserModel = model;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                ApplicationUser currentUser = UserManager.FindById(User.Identity.GetUserId());
+                UserViewModel viewModel = new UserViewModel()
+                {
+                    Name = currentUser.Name,
+                    Surname = currentUser.Surname,
+                    Email = currentUser.Email,
+                    Telephone = currentUser.PhoneNumber,
+                };
+                ViewBag.ModelUser = viewModel;
+            }
+            else
+            {
+                return View();
             }
 
             return View();
@@ -90,25 +104,33 @@ namespace CarRental.Controllers
 
         public ActionResult InsertFormDb(ContactDetails contact)
         {
-            List<SummaryCost> summaryCosts = (List<SummaryCost>)Session["summaryCost"];
-
-            foreach (SummaryCost reserv in summaryCosts)
+            try
             {
-                ReservForm reservForm = new ReservForm()
+                List<SummaryCost> summaryCosts = (List<SummaryCost>)Session["summaryCost"];
+
+                foreach (SummaryCost reserv in summaryCosts)
                 {
-                    ID_Car = reserv.ID_car,
-                    UserId = User.Identity.GetUserId(),
-                    DateBegin = reserv.DateB,
-                    EndDate = reserv.DateE,
-                    place1 = reserv.Place1,
-                    place2 = reserv.Place2,
-                    Cost = Convert.ToInt32(reserv.totalCost),
-                    PaymentMethod = "Cash",
-                    Status = "Wait"
-                };
-                unitOfWork.ReservFormRepository.Insert(reservForm);
-                unitOfWork.Save();
-                InsertContactDb(reservForm.ID_Reserv, contact);
+                    ReservForm reservForm = new ReservForm()
+                    {
+                        ID_Car = reserv.ID_car,
+                        UserId = User.Identity.GetUserId(),
+                        DateBegin = reserv.DateB,
+                        EndDate = reserv.DateE,
+                        place1 = reserv.Place1,
+                        place2 = reserv.Place2,
+                        Cost = Convert.ToInt32(reserv.totalCost),
+                        PaymentMethod = "Cash",
+                        Status = "Wait"
+                    };
+                    unitOfWork.ReservFormRepository.Insert(reservForm);
+                    unitOfWork.Save();
+                    InsertContactDb(reservForm.ID_Reserv, contact);
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            catch
+            {
+                return HttpNotFound();
             }
             return RedirectToAction("Index", "Home");
         }
@@ -123,9 +145,9 @@ namespace CarRental.Controllers
             unitOfWork.Save();
         }
         
-        public JsonResult getCars() //get car in search result
+        public JsonResult getCars(string filtering) //get car in search result
         {
-            var car = unitOfWork.CarRepository.GetAll(includeProperties: "CarClass, Transmission, CarBody", filter: a => a.Active == true, orderBy: p => p.OrderBy(a => a.CarClass.Name)).Select(x => new
+            var car = unitOfWork.CarRepository.GetAll(includeProperties: "CarClass, Transmission, CarBody", filter: a => a.Active == true && (string.IsNullOrEmpty(filtering)? true : a.CarClass.Name == filtering), orderBy: p => p.OrderBy(a => a.CarClass.Name)).Select(x => new
             {
                 ID = x.ID_Car,
                 Model = x.Model,
@@ -139,6 +161,15 @@ namespace CarRental.Controllers
             return Json(car, JsonRequestBehavior.AllowGet);
         }
         
+        public JsonResult getCarClass()
+        {
+            var carClass = unitOfWork.CarClassRepository.GetAll().Select(a => new {
+                ID = a.ID_CarClass,
+                Name = a.Name
+            }).ToList();
+
+            return Json(carClass ,JsonRequestBehavior.AllowGet);
+        }
         
     }
 }

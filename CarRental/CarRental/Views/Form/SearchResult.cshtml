@@ -12,19 +12,20 @@
     <tbody>
         <tr>
             <td><i class="iconS far fa-calendar-alt"></i> Pick up date</td>
-            <td>@Html.TextBox("DateB", "DateB", new { @class = "form-control", @readonly = true })</td>
+            @*<td>@Html.TextBox("DateB", "DateB", new { @class = "form-control", @readonly = true })</td>*@
+            <td><span id="DateB">@item.DateB.ToString("yyyy-MM-dd H:mm")</span></td>
         </tr>
         <tr>
             <td><i class="iconS far fa-calendar-alt"></i> Dropp off date</td>
-            <td>@Html.TextBox("DateE", "DateE", new { @class = "form-control", @readonly = true })</td>
+            <td><span id="DateE">@item.DateE.ToString("yyyy-MM-dd H:mm")</span></td>
         </tr>
         <tr>
             <td><i class="iconS fas fa-plane-departure"></i> Picking up</td>
-            <td>@Html.TextBox("Place1", "Place1", new { @class = "form-control", @readonly = true })</td>
+            <td><span id="Place1">@item.Place1</span></td>
         </tr>
         <tr>
             <td><i class="iconS fas fa-plane-arrival"></i> Dropping off</td>
-            <td>@Html.TextBox("Place2", "Place2", new { @class = "form-control", @readonly = true })</td>
+            <td><span id="Place2">@item.Place2</span></td>
         </tr>
     </tbody>
 </table>
@@ -33,8 +34,8 @@
     <img src="~/Content/loading-gif.gif" style="width: 230px;" />
 </div>
 
+<div id="border-car-class"></div>
 <div id="border-car"></div>
-
 
 <div class="modal fade bd-example-modal-lg" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -72,21 +73,63 @@
                 alert("StackTrace: " + r.StackTrace);
                 alert("ExceptionType: " + r.ExceptionType);
             }
-        });
+            });
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("getCarClass")',
+                dataType: "JSON",
+                data: { id: '' },
+                success: function (data) {
+                    var items = "";
+                    $.each(data, function (i, item) {
+                        var rows = "<span onclick=\"carClassView('" + item.Name + "')\" class=\"btn btn-primary\">" + item.Name + "</span>";
+                        $("#border-car-class").append(rows);
+                    });
+                },
+            });
         }, 2200);
         return false;
     }
+
 
     function detailsCoastModal(ID) {
         $.ajax({
             url: "/Form/_DetailsCostView",
             dataType: "html",
-            data: { ID: ID, place1: $("#Place1").val(), place2: $("#Place2").val() , dateB: $("#DateB").val(), dateE: $("#DateE").val() },
+            data: { ID: ID, place1: $("#Place1").text(), place2: $("#Place2").text() , dateB: $("#DateB").text(), dateE: $("#DateE").text() },
             success: function (result) {
                 $('#detailsCostModal').html(result);
                 $("#modalDetails").modal("show");
             }
         });
+    };
+
+    function carClassView(Name) {
+        $.ajax({
+        type: 'POST',
+        url: '@Url.Action("getCars")',
+        dataType: 'json',
+        data: { id: '', filtering: Name },
+       success: function (data) {
+           var items = "";
+           $.each(data, function (i, item) {
+               var path = "@Url.Content("~/Images/")" + item.Photo;
+               var description = "<div class=\"row\"><div class=\"col-6\"><p>Transmission</p><p>Car body</p><p>Car cost</p></div><div class=\"col-6\"><p>" + item.Transmission + "</p><p>" + item.CarBody + "</p><p>" + item.Cost + " €</p></div></div>"
+               var rows = "<div onclick=\"detailsCoastModal(" + item.ID + ")\" class=\"border-search-result\"><div class=\"card\"><h5 class=\"card-header\">" + item.Model + " " + item.Brand +
+                   "</h5><div class=\"card-body\"><div class=\"row\"><div class=\"col-12 col-md-4\"><img src=" + path +
+                   " style=\"width: 170px; height: 120px;\" /></div><div class=\"col-6 col-md-8\">" + description +
+                   "</div></div></div></div></div><br>";
+               $("#loader").hide();
+               $('#border-car').append(rows);
+                });
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+            }
+            });
     };
 
 

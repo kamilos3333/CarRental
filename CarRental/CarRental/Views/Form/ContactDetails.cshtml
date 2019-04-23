@@ -4,52 +4,66 @@
     ViewBag.Title = "ContactDetails";
 }
 
-
-@using (Html.BeginForm("InsertFormDb", "Form", FormMethod.Post,  new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("InsertFormDb", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    <h3><a href="@Url.Action("Login","Account")">Login</a> if you want 5% discount on a car</h3>
-    <div class="form-horizontal">
-        <h4>ContactDetails</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    if (ViewBag.ModelUser == null)
+    {
+        <br />
+        <div class="card border-primary mb-3">
+            <div class="card-body">
+                <h3 class="card-text"><a href="@Url.Action("Login","Account")">Login</a> if you want 10€ discount on a car</h3>
             </div>
         </div>
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+            <h4>ContactDetails</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.ModelUser == null ? null : ViewBag.ModelUser.Name) } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.ModelUser == null ? null : ViewBag.ModelUser.Surname) } })
+                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.ModelUser == null ? null : ViewBag.ModelUser.Email) } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Telephone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.ModelUser == null ? null : ViewBag.ModelUser.Telephone) } })
+                    @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                <label class="form-check-label" for="exampleCheck1">I confirm I'm 25 years or older / 70 years or younger. I understand that if I do not meet these conditions, local surcharges may be applicable.</label>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Telephone, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </div>
-    </div>
 }

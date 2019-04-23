@@ -224,6 +224,7 @@
     <Content Include="Content\jquery-ui.structure.min.css" />
     <Content Include="Content\jquery-ui.theme.css" />
     <Content Include="Content\jquery-ui.theme.min.css" />
+    <Content Include="Content\jquery.timepicker.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -394,6 +395,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.timepicker.js" />
+    <Content Include="Scripts\jquery.timepicker.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -474,6 +477,7 @@
     <Content Include="Views\ContactDetails\Edit.cshtml" />
     <Content Include="Views\ContactDetails\Index.cshtml" />
     <Content Include="Views\Form\ContactDetails.cshtml" />
+    <Content Include="Views\Form\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

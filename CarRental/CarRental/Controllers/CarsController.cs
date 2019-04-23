@@ -56,6 +56,7 @@ namespace CarRental.Controllers
                         var path = Path.Combine(Server.MapPath("~/Images"), fileName);
                         upload.SaveAs(path);
 
+                        car.Model = car.Model.ToUpper();
                         car.Photo = fileName;
                         car.Active = true;
                         unitOfWork.CarRepository.Insert(car);

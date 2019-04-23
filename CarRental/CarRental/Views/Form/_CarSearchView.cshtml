@@ -10,13 +10,13 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label>Picking up</label>
-                        @Html.DropDownListFor(model => model.Place1, ViewBag.PlacesList as SelectList, new { @class = "form-control selectpicker", @data_width = "auto" })
+                        @Html.DropDownListFor(model => model.Place1, ViewBag.PlacesList as SelectList, new { @class = "form-control selectpicker" })
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label>Dropping off</label>
-                        @Html.DropDownListFor(model => model.Place2, ViewBag.PlacesList as SelectList, new { @class = "form-control selectpicker", @data_width = "auto" })
+                        @Html.DropDownListFor(model => model.Place2, ViewBag.PlacesList as SelectList, new { @class = "form-control selectpicker" })
                     </div>
                 </div>
             </div>
@@ -24,13 +24,27 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label>Pick-up date</label>
-                        @Html.EditorFor(model => model.DateB, new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="form-row">
+                            <div class="col">
+                                @Html.EditorFor(model => model.DateB, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col">
+                                @Html.EditorFor(model => model.TimeB, new { htmlAttributes = new { @class = "form-control time", @id = "basicExample1" } })
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label>Drop-off date</label>
-                        @Html.EditorFor(model => model.DateE, new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="form-row">
+                            <div class="col">
+                                @Html.EditorFor(model => model.DateE, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col">
+                                @Html.EditorFor(model => model.TimeE, new { htmlAttributes = new { @class = "form-control time", @id = "basicExample2" } })
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,4 +60,19 @@
             showSubtext: true
         });
     });
+
+    $(function () {
+        $('#basicExample1').timepicker({
+            'timeFormat': 'H:i',
+            'disableTextInput': 'true',
+        });
+    });
+
+    $(function () {
+        $('#basicExample2').timepicker({
+            'timeFormat': 'H:i',
+            'disableTextInput': 'true',
+        });
+    });
+
 </script>
