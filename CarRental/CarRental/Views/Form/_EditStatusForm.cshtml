@@ -77,9 +77,33 @@
                         </div>
                     </div>
                     <div class="col-6 col-md-4">
-
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.user.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <p>@Html.DisplayFor(model => model.user.Name, new { @class = "form-control" }) @Html.DisplayFor(model => model.user.Surname, new { @class = "form-control" })</p> 
+                            </div>
                         </div>
-                    <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.user.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DisplayFor(model => model.user.PhoneNumber, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.user.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DisplayFor(model => model.user.Email, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.car.Model, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <p>@Html.DisplayFor(model => model.car.ID_Car, new { @class = "form-control" }): @Html.DisplayFor(model => model.car.Model, new { @class = "form-control" }) @Html.DisplayFor(model => model.car.Brand, new { @class = "form-control" })</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

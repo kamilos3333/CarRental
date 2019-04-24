@@ -64,7 +64,6 @@ namespace CarRental.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-                
              }
 
             ViewBag.ID_Tran = new SelectList(unitOfWork.TransmissionRepository.GetAll(), "ID_Tran", "Name", car.ID_Tran);
@@ -90,7 +89,6 @@ namespace CarRental.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Car car, FormCollection collection)
         {
-            
             unitOfWork.CarRepository.Update(car);
             unitOfWork.Save();
             

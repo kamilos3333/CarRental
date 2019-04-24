@@ -12,16 +12,24 @@ namespace CarRental.Models
     {
         [Key]
         public int ID_Reserv { get; set; }
+        [Required]
         public int ID_Car { get; set; }
         public string UserId { get; set; }
+        [Required]
         [DataType(DataType.DateTime)]
         public DateTime DateBegin { get; set; }
+        [Required]
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
+        [Required]
         public int Cost { get; set; }
+        [Required]
         public string place1 { get; set; }
+        [Required]
         public string place2 { get; set; }
+        [Required]
         public string PaymentMethod { get; set; }
+        [Required]
         public string Status { get; set; }
 
         public virtual Car car { get; set; }

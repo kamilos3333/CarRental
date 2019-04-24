@@ -28,8 +28,6 @@ namespace CarRental.Controllers
         public ActionResult _EditStatusForm(int id)
         {
             ReservForm reserv = unitOfWork.ReservFormRepository.GetById(id);
-            var contact = unitOfWork.ContactRepository.GetAll(filter: a => a.ID_Reserv == id);
-            ViewBag.Contact = contact;
             return PartialView("_EditStatusForm", reserv);
         }
 
@@ -121,34 +119,40 @@ namespace CarRental.Controllers
 
         public ActionResult InsertFormDb(ContactDetails contact)
         {
-            try
+            using(var transaction = unitOfWork.ReservFormRepository.dbContext.Database.BeginTransaction())
             {
-                List<SummaryCost> summaryCosts = (List<SummaryCost>)Session["summaryCost"];
-
-                foreach (SummaryCost reserv in summaryCosts)
+                try
                 {
-                    ReservForm reservForm = new ReservForm()
+                    List<SummaryCost> summaryCosts = (List<SummaryCost>)Session["summaryCost"];
+
+                    foreach (SummaryCost reserv in summaryCosts)
                     {
-                        ID_Car = reserv.ID_car,
-                        UserId = User.Identity.GetUserId(),
-                        DateBegin = reserv.DateB,
-                        EndDate = reserv.DateE,
-                        place1 = reserv.Place1,
-                        place2 = reserv.Place2,
-                        Cost = Convert.ToInt32(reserv.totalCost),
-                        PaymentMethod = "Cash",
-                        Status = "Waiting"
-                    };
-                    unitOfWork.ReservFormRepository.Insert(reservForm);
-                    unitOfWork.Save();
-                    InsertContactDb(reservForm.ID_Reserv, contact);
-                    return RedirectToAction("Index", "Home");
+                        ReservForm reservForm = new ReservForm()
+                        {
+                            ID_Car = reserv.ID_car,
+                            UserId = User.Identity.GetUserId(),
+                            DateBegin = reserv.DateB,
+                            EndDate = reserv.DateE,
+                            place1 = reserv.Place1,
+                            place2 = reserv.Place2,
+                            Cost = Convert.ToInt32(reserv.totalCost),
+                            PaymentMethod = "Cash",
+                            Status = "Waiting"
+                        };
+                        unitOfWork.ReservFormRepository.Insert(reservForm);
+                        unitOfWork.Save();
+                        InsertContactDb(reservForm.ID_Reserv, contact);
+                        transaction.Commit();
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                catch(Exception ex)
+                {
+                    transaction.Rollback();
+                    return HttpNotFound();
                 }
             }
-            catch
-            {
-                return HttpNotFound();
-            }
+            
             return RedirectToAction("Index", "Home");
         }
 
