@@ -1,0 +1,93 @@
+﻿@model CarRental.Models.ReservForm
+<div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Reservation form</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("EditStatusForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                
+                <div class="row">
+                    <div class="col-6 col-md-4">
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ID_Reserv)
+                            @Html.HiddenFor(model => model.ID_Car, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.HiddenFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DateBegin, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.DateBegin, new { @class = "form-control", @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.DateBegin, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control", @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.Cost, new { @class = "form-control", @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PaymentMethod, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.PaymentMethod, new { @class = "form-control", @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.PaymentMethod, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.place1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.place1, new { @class = "form-control", @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.place1, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.place2, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.place2, new { @class = "form-control", @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.place2, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("Status", new List<SelectListItem>
+                                   {
+                                      new SelectListItem { Text = "Wait" },
+                                      new SelectListItem { Text = "Prepared" },
+                                      new SelectListItem { Text = "In Use" },
+                                      new SelectListItem { Text = "Finished" },
+                                   }, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+
+                        </div>
+                    <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

@@ -56,6 +56,7 @@ namespace CarRental.Controllers
                         var path = Path.Combine(Server.MapPath("~/Images"), fileName);
                         upload.SaveAs(path);
 
+                        car.Model = car.Model.ToUpper();
                         car.Photo = fileName;
                         car.Active = true;
                         unitOfWork.CarRepository.Insert(car);
@@ -89,20 +90,14 @@ namespace CarRental.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Car car, FormCollection collection)
         {
-            try
-            {
-                unitOfWork.CarRepository.Update(car);
-                unitOfWork.Save();
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-
-            }
+            
+            unitOfWork.CarRepository.Update(car);
+            unitOfWork.Save();
+            
             ViewBag.ID_Tran = new SelectList(unitOfWork.TransmissionRepository.GetAll(), "ID_Tran", "Name", car.ID_Tran);
             ViewBag.ID_CarBody = new SelectList(unitOfWork.CarBodyRepository.GetAll(), "ID_CarBody", "Name", car.ID_CarBody);
             ViewBag.ID_CarClass = new SelectList(unitOfWork.CarClassRepository.GetAll(), "ID_CarClass", "Name", car.ID_CarClass);
-            return View(car);
+            return RedirectToAction("Index");
         }
 
        

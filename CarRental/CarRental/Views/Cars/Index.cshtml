@@ -48,6 +48,8 @@ Columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<
             success: function (data) {
                 $('#containerModalCreate').html(data);
                 $('#insertModal').modal('show');
+                var $form = $('#myForm');
+                $.validator.unobtrusive.parse($form);
             }
         });
     };

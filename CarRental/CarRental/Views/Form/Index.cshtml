@@ -1,0 +1,36 @@
+﻿@model IEnumerable<CarRental.Models.ReservForm>
+@using GridMvc.Html
+
+<link href="~/Content/Gridmvc.css" rel="stylesheet" />
+<script src="~/Scripts/gridmvc.min.js"></script>
+<br />
+
+<br />
+<div class="code-cut">
+    @Html.Grid(Model).Columns(Columns => {
+    Columns.Add(c => c.ID_Reserv).Titled("Id").Filterable(false);
+    Columns.Add(c => c.DateBegin).Titled("Date begin").Filterable(true);
+    Columns.Add(c => c.EndDate).Titled("End date").Filterable(true);
+    Columns.Add(c => c.Status).Titled("Status").Filterable(true);
+    Columns.Add(c => c.Cost).Titled("Cost").Filterable(true);
+    Columns.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(o => @<span class="btn btn-secondary" style="cursor: pointer" onclick="EditStatusForm(@o.ID_Reserv)">Edit</span>);
+}).WithPaging(10).Sortable(true)
+</div>
+
+<div class="modal fade bd-example-modal-xl" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="containerModalForm">
+    </div>
+</div>
+
+<script>
+    function EditStatusForm(id) {
+        $.ajax({
+            url: "/Form/_EditStatusForm/" + id,
+            dataType: "html",
+            success: function (data) {
+                $('#containerModalForm').html(data);
+                $('#formModal').modal('show');
+            }
+        });
+    };
+</script>

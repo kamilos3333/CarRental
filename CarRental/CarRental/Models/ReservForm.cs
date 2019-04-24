@@ -14,11 +14,9 @@ namespace CarRental.Models
         public int ID_Reserv { get; set; }
         public int ID_Car { get; set; }
         public string UserId { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
         public DateTime DateBegin { get; set; }
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
         public int Cost { get; set; }
         public string place1 { get; set; }
@@ -33,15 +31,25 @@ namespace CarRental.Models
     public class TempReservation
     {
         public string Place1 { get; set; }
+
         public string Place2 { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateB { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan TimeB { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateE { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan TimeE { get; set; }
+
     }
 
     public class SummaryCost
@@ -49,9 +57,9 @@ namespace CarRental.Models
         public int ID_car { get; set; }
         public string Place1 { get; set; }
         public string Place2 { get; set; }
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime DateB { get; set; }
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime DateE { get; set; }
         public int additionalCostPlace { get; set; }
         public double totalDayCost { get; set; }

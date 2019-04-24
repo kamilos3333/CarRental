@@ -12,7 +12,7 @@ select.selectpicker {
 }
 
 .bootstrap-select {
-    width: 220px;
+    /*width: 220px;*/
     /*IE9 and below*/
     vertical-align: middle;
 }
