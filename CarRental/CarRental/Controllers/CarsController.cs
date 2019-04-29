@@ -44,6 +44,7 @@ namespace CarRental.Controllers
         // POST: Cars/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult Create(FormCollection collection, HttpPostedFileBase upload, Car car)
         {
             if (ModelState.IsValid)

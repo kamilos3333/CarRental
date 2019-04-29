@@ -26,7 +26,7 @@
                         <label>Pick-up date</label>
                         <div class="form-row">
                             <div class="col">
-                                @Html.EditorFor(model => model.DateB, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.DateB, new { htmlAttributes = new { @class = "form-control", @id = "from" } })
                             </div>
                             <div class="col">
                                 @Html.EditorFor(model => model.TimeB, new { htmlAttributes = new { @class = "form-control time", @id = "basicExample1" } })
@@ -39,7 +39,7 @@
                         <label>Drop-off date</label>
                         <div class="form-row">
                             <div class="col">
-                                @Html.EditorFor(model => model.DateE, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.DateE, new { htmlAttributes = new { @class = "form-control", @id = "to" } })
                             </div>
                             <div class="col">
                                 @Html.EditorFor(model => model.TimeE, new { htmlAttributes = new { @class = "form-control time", @id = "basicExample2" } })
@@ -75,4 +75,38 @@
         });
     });
 
+    $(function () {
+        var dateFormat = "yy/mm/dd",
+            from = $("#from")
+                .datepicker({
+                    dateFormat: "yy/mm/dd",
+                    changeMonth: true,
+                    numberOfMonths: 2,
+                    minDate: new Date(((new Date).getTime() + 24 * 60 * 60 * 1000))
+                })
+                .on("change", function () {
+                    to.datepicker("option", "minDate", getDate(this));
+                }).attr('readonly', 'readonly'),
+            to = $("#to").datepicker({
+                dateFormat: "yy/mm/dd",
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 2,
+            }).attr('readonly', 'readonly')
+                .on("change", function () {
+                    from.datepicker("option", "maxDate", getDate(this));
+                });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
+    });
+    
 </script>

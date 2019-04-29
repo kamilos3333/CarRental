@@ -1,4 +1,7 @@
 ﻿@model CarRental.Models.ReservForm
+@{ 
+    var item = ViewBag.UserDetails;
+}
 <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -67,6 +70,7 @@
                                 <div class="col-md-10">
                                     @Html.DropDownList("Status", new List<SelectListItem>
                                    {
+                                      new SelectListItem { Text = "Abandon" },
                                       new SelectListItem { Text = "Wait" },
                                       new SelectListItem { Text = "Prepared" },
                                       new SelectListItem { Text = "In Use" },
@@ -80,19 +84,19 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.user.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                <p>@Html.DisplayFor(model => model.user.Name, new { @class = "form-control" }) @Html.DisplayFor(model => model.user.Surname, new { @class = "form-control" })</p> 
+                                <p>@item.FullName</p> 
                             </div>
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.user.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DisplayFor(model => model.user.PhoneNumber, new { @class = "form-control", @readonly = true })
+                                @item.Telephone
                             </div>
                         </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.user.Email, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DisplayFor(model => model.user.Email, new { @class = "form-control", @readonly = true })
+                                @item.Email
                             </div>
                         </div>
                     </div>

@@ -43,7 +43,6 @@ namespace CarRental.Models
         public string Place2 { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
         public DateTime DateB { get; set; }
 
         [Required]
@@ -51,7 +50,6 @@ namespace CarRental.Models
         public TimeSpan TimeB { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
         public DateTime DateE { get; set; }
 
         [Required]
@@ -65,13 +63,20 @@ namespace CarRental.Models
         public int ID_car { get; set; }
         public string Place1 { get; set; }
         public string Place2 { get; set; }
+
         [DataType(DataType.DateTime)]
         public DateTime DateB { get; set; }
+
         [DataType(DataType.DateTime)]
         public DateTime DateE { get; set; }
+
         public int additionalCostPlace { get; set; }
+
         public double totalDayCost { get; set; }
+
         public decimal carCost { get; set; }
+
+        [StringLength((10), MinimumLength = 1)]
         public decimal totalCost { get; set; }
     }
 }

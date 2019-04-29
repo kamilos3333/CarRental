@@ -56,6 +56,12 @@
                         <a class="nav-link" href="@Url.Action("Index","Form")">Orders <span class="badge badge-light">@TempData["Order"]</span></a>
                     </li>
                 }
+                @if (User.IsInRole("Client"))
+                {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("OrderUserList","Form")">My orders</a>
+                </li>
+                }
             </ul>
             <ul class="navbar-nav ml-auto">
                 @Html.Partial("_LoginPartial")

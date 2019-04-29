@@ -33,19 +33,21 @@
 <div style="width: 100%; display: none; text-align: center;" id="loader">
     <img src="~/Content/loading-gif.gif" style="width: 230px;" />
 </div>
+<fieldset>
+    <legend>Car class</legend>
+    <div style="margin-bottom: 15px;" id="border-car-class"></div>
+</fieldset>
+    <div id="border-car"></div>
 
-<div id="border-car-class"></div>
-<div id="border-car"></div>
+    <div class="modal fade bd-example-modal-lg" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div id="detailsCostModal">
 
-<div class="modal fade bd-example-modal-lg" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div id="detailsCostModal">
-
+            </div>
         </div>
     </div>
-</div>
 
-<script>
+    <script>
     window.onload = function () {
         $('#loader').show();
         setTimeout(function () {
@@ -61,7 +63,7 @@
                var description = "<div class=\"row\"><div class=\"col-6\"><p>Transmission</p><p>Car body</p><p>Car cost</p></div><div class=\"col-6\"><p>" + item.Transmission + "</p><p>" + item.CarBody + "</p><p>" + item.Cost + " €</p></div></div>"
                var rows = "<div onclick=\"detailsCoastModal(" + item.ID + ")\" class=\"border-search-result\"><div class=\"card\"><h5 class=\"card-header\">" + item.Model + " " + item.Brand +
                    "</h5><div class=\"card-body\"><div class=\"row\"><div class=\"col-12 col-md-4\"><img src=" + path +
-                   " style=\"width: 170px; height: 120px;\" /></div><div class=\"col-6 col-md-8\">" + description +
+                   " style=\"width: 190px; height: 120px;\" /></div><div class=\"col-6 col-md-8\">" + description +
                    "</div></div></div></div></div><br>";
                $("#loader").hide();
                $('#border-car').append(rows);
@@ -82,7 +84,7 @@
                 success: function (data) {
                     var items = "";
                     $.each(data, function (i, item) {
-                        var rows = "<span onclick=\"carClassView('" + item.Name + "')\" class=\"btn btn-primary\">" + item.Name + "</span>";
+                        var rows = "<span style=\"margin-right: 5px;\" onclick=\"carClassView('" + item.Name + "')\" class=\"btn btn-primary\">" + item.Name + "</span>";
                         $("#border-car-class").append(rows);
                     });
                 },
@@ -105,6 +107,7 @@
     };
 
     function carClassView(Name) {
+        $("#border-car").empty();
         $.ajax({
         type: 'POST',
         url: '@Url.Action("getCars")',
@@ -117,9 +120,8 @@
                var description = "<div class=\"row\"><div class=\"col-6\"><p>Transmission</p><p>Car body</p><p>Car cost</p></div><div class=\"col-6\"><p>" + item.Transmission + "</p><p>" + item.CarBody + "</p><p>" + item.Cost + " €</p></div></div>"
                var rows = "<div onclick=\"detailsCoastModal(" + item.ID + ")\" class=\"border-search-result\"><div class=\"card\"><h5 class=\"card-header\">" + item.Model + " " + item.Brand +
                    "</h5><div class=\"card-body\"><div class=\"row\"><div class=\"col-12 col-md-4\"><img src=" + path +
-                   " style=\"width: 170px; height: 120px;\" /></div><div class=\"col-6 col-md-8\">" + description +
+                   " style=\"width: 190px; height: 120px;\" /></div><div class=\"col-6 col-md-8\">" + description +
                    "</div></div></div></div></div><br>";
-               $("#loader").hide();
                $('#border-car').append(rows);
                 });
             },
@@ -129,8 +131,9 @@
                 alert("StackTrace: " + r.StackTrace);
                 alert("ExceptionType: " + r.ExceptionType);
             }
-            });
+        });
+        return false;
     };
 
 
-</script>
+    </script>

@@ -29,6 +29,7 @@ namespace CarRental.Models
         [Required]
         [Phone]
         [Display(Name = "Phone Number")]
+        [StringLength(9)]
         public string Telephone { get; set; }
 
         [Display(Name = "Full Name")]
@@ -36,7 +37,7 @@ namespace CarRental.Models
         {
             get
             {
-                return Name + ", " + Surname;
+                return Surname + ", " + Name;
             }
         }
 

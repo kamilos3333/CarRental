@@ -137,8 +137,13 @@ namespace CarRental.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string success)
         {
+            if (success != null)
+            {
+                TempData["Success"] = "Send email to your email address with confirmation link.";
+            }
+
             return View();
         }
 
@@ -164,7 +169,7 @@ namespace CarRental.Controllers
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Register", new { success = "Success" });
                 }
                 AddErrors(result);
             }
@@ -385,7 +390,7 @@ namespace CarRental.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
-
+        
         //
         // POST: /Account/LogOff
         [HttpPost]

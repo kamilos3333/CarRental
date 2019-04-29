@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Success";
+}
+
+<div style="margin: 20px;">
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Well done!</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse imperdiet ac lectus vel blandit. Vestibulum porttitor odio blandit elementum efficitur.</p>
+        <hr>
+        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+    </div>
+</div>
+
+<script>
+    window.setTimeout(function () {
+    window.location.href = '@Url.Action("Index", "Home")';
+}, 4000);
+</script>

@@ -10,17 +10,26 @@ namespace CarRental.Models
     {
         [Key]
         public int ID_Car { get; set; }
+
         [Required]
+        [StringLength(maximumLength: 100, MinimumLength = 2)]
         public string Model { get; set; }
+
         [Required]
+        [StringLength(maximumLength: 50, MinimumLength = 2)]
         public string Brand { get; set; }
+
         [Display(Name = "Transmission")]
         public int ID_Tran { get; set; }
+
         [Display(Name = "Class")]
         public int ID_CarClass { get; set; }
+
         [Display(Name = "Body")]
         public int ID_CarBody { get; set; }
+
         public string Photo { get; set; }
+
         public bool Active { get; set; }
 
         public virtual CarClass CarClass { get; set; }

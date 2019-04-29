@@ -2252,7 +2252,8 @@ pre {
 }
 
 .form-control:disabled, .form-control[readonly] {
-    background-color: #e9ecef;
+    background-color: #fff;
+    ;
     opacity: 1;
 }
 
