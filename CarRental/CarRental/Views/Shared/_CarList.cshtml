@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<CarRental.Models.Car>
+@using CarRental.Helpers
 <div class="row no-gutters">
     @foreach (var item in Model)
     {
@@ -6,7 +7,7 @@
             <div style="cursor: pointer" onclick="DetailsModalCar(@item.ID_Car)">
                 <div class="card h-100 text-center">
                     <span class="btn btn-secondary" style="position: absolute; top: 5px; left: 4px;">@item.CarClass.Name</span>
-                    <img src="~/Images/@item.Photo" class="card-image-main" alt="@item.Model-@item.Brand">
+                    <img src="@Url.CarImgPath(item.Photo)" class="card-image-main" alt="@item.Model-@item.Brand">
                     <div class="card-body">
                         <h5 class="card-title">@item.Model @item.Brand</h5>
                     </div>

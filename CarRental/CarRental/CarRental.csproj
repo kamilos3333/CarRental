@@ -187,6 +187,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AppConfig.cs" />
+    <Compile Include="Helpers\UrlHelpers.cs" />
+    <Compile Include="Infrastructure\ImageManager.cs" />
     <Compile Include="Migrations\201904131645190_InitialCreate.cs" />
     <Compile Include="Migrations\201904131645190_InitialCreate.Designer.cs">
       <DependentUpon>201904131645190_InitialCreate.cs</DependentUpon>
@@ -207,6 +210,7 @@
     <Compile Include="Repository\GenericRepository.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\EditCarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -228,18 +232,27 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\02abf5f7-b5b4-4843-ab51-0430747a00f5.jpg" />
-    <Content Include="Images\11b88d2f-f5f2-4cd0-83f8-37a3a7c05c75.jpg" />
-    <Content Include="Images\1736ed29-cf18-4ea6-bebf-3817ca407919.png" />
-    <Content Include="Images\35a53d8b-a269-489d-abe7-4c327c3d416d.jpg" />
-    <Content Include="Images\3c799cdf-2b9e-499f-b203-d9cfad8776c7.jpg" />
-    <Content Include="Images\4f929f83-f847-4460-a8d2-b81d48e3efaf.png" />
-    <Content Include="Images\a9636fe3-2738-4a78-8fd2-a2a7296a4edd.jpg" />
-    <Content Include="Images\c557efeb-3910-44b0-9106-28b2b9e440b4.jpg" />
-    <Content Include="Images\ce19e25d-beb0-4002-8a79-9399e39b12f7.jpg" />
-    <Content Include="Images\ec3eac71-c058-4434-8bce-b1273cf72c83.jpg" />
-    <Content Include="Images\f28f955f-ca98-461b-9a56-4426e60b2e3c.jpg" />
-    <Content Include="Images\placeholder.png" />
+    <Content Include="Images\Cars\0ec92d75-c55a-4fc6-810b-56c5e8bb7435.jpg" />
+    <Content Include="Images\Cars\22a7acdd-fdfd-44de-9585-b4f2535d6614.jpg" />
+    <Content Include="Images\Cars\2fdca8c9-aa48-435f-98d8-12e99a3fbb50.jpg" />
+    <Content Include="Images\Cars\3b40af63-19b1-4299-a025-b105ef213a8c.jpg" />
+    <Content Include="Images\Cars\4294b4d5-657e-4d17-816c-259edf0f29cb.jpg" />
+    <Content Include="Images\Cars\45973068-a43a-4103-abe7-98fa44e94744.jpg" />
+    <Content Include="Images\Cars\5a1d0969-abd1-40a7-b3e9-a7b4dfd7163b.jpg" />
+    <Content Include="Images\Cars\7d4fbf6d-5935-4316-a651-2977d3186dff.jpg" />
+    <Content Include="Images\Cars\841c253a-3ba5-4399-a6e6-aceec1889d6e.jpg" />
+    <Content Include="Images\Cars\844d4e95-97a2-4295-8f0a-160013def82c.jpg" />
+    <Content Include="Images\Cars\9d39d45e-bb37-442a-8a41-9c38066a8724.png" />
+    <Content Include="Images\Cars\aa4569cb-77fa-462c-8e4b-3bb4f6e83348.png" />
+    <Content Include="Images\Cars\b68ffbd1-7b45-4d78-94d6-cdcd48958c1a.jpg" />
+    <Content Include="Images\Cars\c27a175b-ed61-414c-9617-e4cec35a8799.png" />
+    <Content Include="Images\Cars\c6321415-b10f-4d9a-84b9-ab8b2836941f.jpg" />
+    <Content Include="Images\Cars\c6b6f5d3-ca2d-4aec-8113-fe662fda4d15.jpg" />
+    <Content Include="Images\Cars\cb772dde-c9ac-4b59-bc6b-9bdbded66177.jpg" />
+    <Content Include="Images\Cars\db03cdb9-ab80-420d-80d7-af782f1c7485.jpg" />
+    <Content Include="Images\Cars\db842475-eed5-4459-a0e3-97d21cbe37e8.jpg" />
+    <Content Include="Images\Cars\e16c5db8-b773-48fd-b444-47c9a60ad401.png" />
+    <Content Include="Images\Cars\e633ce76-e38d-45e1-9a21-322d8cc5ef23.jpg" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-select.js" />

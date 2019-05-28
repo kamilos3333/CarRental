@@ -1,4 +1,5 @@
 ﻿@model CarRental.Models.Car
+@using CarRental.Helpers
 @{
     ViewBag.Title = "Details";
 }
@@ -12,7 +13,7 @@
     </div>
     <div class="modal-body">
         <div class="row">
-            <div class="col-6"><img src="~/Images/@Html.DisplayFor(model => model.Photo)" class="img-fluid" /></div>
+            <div class="col-6"><img src="@Url.CarImgPath(Model.Photo)" class="img-fluid" /></div>
             <div class="col-6">
                 <table class="table table-striped">
                     <tbody>

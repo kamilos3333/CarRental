@@ -1,5 +1,7 @@
-﻿using CarRental.Models;
+﻿using CarRental.Infrastructure;
+using CarRental.Models;
 using CarRental.Repository;
+using CarRental.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +14,7 @@ namespace CarRental.Controllers
     public class CarsController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
+        private ImageManager ImageManager = new ImageManager();
         
         // GET: Cars
         [Authorize(Roles = "Admin")]
@@ -35,42 +38,42 @@ namespace CarRental.Controllers
         [Authorize]
         public ActionResult _Create()
         {
-            ViewBag.ID_Tran = new SelectList(unitOfWork.TransmissionRepository.GetAll(), "ID_Tran", "Name");
-            ViewBag.ID_CarBody = new SelectList(unitOfWork.CarBodyRepository.GetAll(), "ID_CarBody", "Name");
-            ViewBag.ID_CarClass = new SelectList(unitOfWork.CarClassRepository.GetAll(), "ID_CarClass", "Name");
-            return PartialView("_Create");
+            Car car = new Car();
+            var result = new EditCarViewModel();
+            result.CarBodies = unitOfWork.CarBodyRepository.GetAll().ToList();
+            result.CarClasses = unitOfWork.CarClassRepository.GetAll().ToList();
+            result.Transmissions = unitOfWork.TransmissionRepository.GetAll().ToList();
+            result.Car = car;
+            
+            return PartialView("_Create", result);
         }
 
         // POST: Cars/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create(FormCollection collection, HttpPostedFileBase upload, Car car)
+        public ActionResult Create(FormCollection collection, EditCarViewModel model, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             {
-                if (upload != null && upload.ContentLength > 0)
+                string fileName = ImageManager.InsertImage(Image);
+
+                Car car = new Car()
                 {
-                    if (Path.GetExtension(upload.FileName).ToLower() == ".jpg" || Path.GetExtension(upload.FileName).ToLower() == ".png")
-                    {
-                        var fileName = Guid.NewGuid() + Path.GetExtension(upload.FileName);
-                        var path = Path.Combine(Server.MapPath("~/Images"), fileName);
-                        upload.SaveAs(path);
+                    Model = model.Car.Model,
+                    Brand = model.Car.Brand,
+                    ID_Tran = model.Car.ID_Tran,
+                    ID_CarBody = model.Car.ID_CarBody,
+                    ID_CarClass = model.Car.ID_CarClass,
+                    Photo = fileName,
+                    Active = true
+                };
+                unitOfWork.CarRepository.Insert(car);
+                unitOfWork.Save();
+            }
 
-                        car.Model = car.Model.ToUpper();
-                        car.Photo = fileName;
-                        car.Active = true;
-                        unitOfWork.CarRepository.Insert(car);
-                        unitOfWork.Save();
-                        return RedirectToAction("Index");
-                    }
-                }
-             }
 
-            ViewBag.ID_Tran = new SelectList(unitOfWork.TransmissionRepository.GetAll(), "ID_Tran", "Name", car.ID_Tran);
-            ViewBag.ID_CarBody = new SelectList(unitOfWork.CarBodyRepository.GetAll(), "ID_CarBody", "Name", car.ID_CarBody);
-            ViewBag.ID_CarClass = new SelectList(unitOfWork.CarClassRepository.GetAll(), "ID_CarClass", "Name", car.ID_CarClass);
-            return View(car);
+            return View();
         }
 
         // GET: Cars/Edit/5

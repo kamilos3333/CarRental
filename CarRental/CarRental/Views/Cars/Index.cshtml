@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CarRental.Models.Car>
 @using GridMvc.Html
-
+@using CarRental.Helpers
 
 <link href="~/Content/Gridmvc.css" rel="stylesheet" />
 <script src="~/Scripts/gridmvc.min.js"></script>
@@ -16,7 +16,7 @@
 <div class="code-cut">
     @Html.Grid(Model).Columns(Columns => {
     Columns.Add(c => c.ID_Car).Titled("Id").Filterable(false);
-    Columns.Add().Sanitized(false).Encoded(false).RenderValueAs(o => @<img src="~/Images/@o.Photo" style="width: 90px; height: 60px;" />).Filterable(false);
+    Columns.Add().Sanitized(false).Encoded(false).RenderValueAs(o => @<img src="@Url.CarImgPath(o.Photo)" style="width: 90px; height: 60px;" />).Filterable(false);
     Columns.Add(c => c.Model).Titled("Model").Filterable(true);
     Columns.Add(c => c.Brand).Titled("Brand").Filterable(true);
     Columns.Add(c => c.Transmission.Name).Titled("Transmission").Filterable(true);
