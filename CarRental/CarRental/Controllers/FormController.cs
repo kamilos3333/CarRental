@@ -1,4 +1,5 @@
-﻿using CarRental.Models;
+﻿using CarRental.Infrastructure;
+using CarRental.Models;
 using CarRental.Repository;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -14,7 +15,13 @@ namespace CarRental.Controllers
     public class FormController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
+        private CostManager costManager;
         ApplicationDbContext context = new ApplicationDbContext();
+
+        public FormController()
+        {
+            costManager = new CostManager(unitOfWork);
+        }
 
         // GET: Form
         [Authorize(Roles = "Admin")]
@@ -78,30 +85,7 @@ namespace CarRental.Controllers
         {
             try
             {
-                var additionalCostPlace = unitOfWork.PlaceRepository.GetAll(filter: a => a.Name == place1).Select(x => x.AddCost).FirstOrDefault();
-                var carCost = unitOfWork.CarRepository.GetAll(includeProperties: "CarClass", filter: a => a.ID_Car == ID).Select(x => x.CarClass.Cost).FirstOrDefault();
-                var totalDaysCount = dateE.Date.Subtract(dateB.Date).TotalDays;
-                var totalDayCost = (totalDaysCount * 85);
-                var totalCost = (decimal)totalDayCost + additionalCostPlace + carCost;
-                if (User.Identity.IsAuthenticated) { totalCost = totalCost - 10; }
-                if(totalCost < 0) { return View("Error"); }
-
-                    List<SummaryCost> summaryCosts = new List<SummaryCost>
-                    {
-                    new SummaryCost()
-                    {
-                        ID_car = ID,
-                        Place1 = place1,
-                        Place2 = place2,
-                        DateB = dateB,
-                        DateE = dateE,
-                        additionalCostPlace = additionalCostPlace,
-                        totalDayCost = totalDayCost,
-                        carCost = carCost,
-                        totalCost = totalCost
-                    },
-                };
-                Session["summaryCost"] = summaryCosts;
+                Session["summaryCost"] = costManager.CostSummary(ID, place1, place2, dateB, dateE);
 
                 return PartialView("_DetailsCostView");
             }
@@ -223,6 +207,11 @@ namespace CarRental.Controllers
             var userID = User.Identity.GetUserId();
             var reserv = unitOfWork.ReservFormRepository.GetAll(filter: a => a.UserId == userID).ToList();
             return View(reserv);
+        }
+
+        public int GetNumberForm()
+        {
+            return unitOfWork.ReservFormRepository.GetAll(filter: a => a.Status == "Wait").Count();
         }
 
         public ActionResult Success(string success)

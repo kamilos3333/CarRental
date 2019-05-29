@@ -189,6 +189,7 @@
     </Compile>
     <Compile Include="Helpers\AppConfig.cs" />
     <Compile Include="Helpers\UrlHelpers.cs" />
+    <Compile Include="Infrastructure\CostManager.cs" />
     <Compile Include="Infrastructure\ImageManager.cs" />
     <Compile Include="Migrations\201904131645190_InitialCreate.cs" />
     <Compile Include="Migrations\201904131645190_InitialCreate.Designer.cs">
