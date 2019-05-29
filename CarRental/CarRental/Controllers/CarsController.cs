@@ -1,4 +1,5 @@
 ﻿using CarRental.Infrastructure;
+using CarRental.Infrastructure.Interface;
 using CarRental.Models;
 using CarRental.Repository;
 using CarRental.ViewModel;
@@ -14,8 +15,13 @@ namespace CarRental.Controllers
     public class CarsController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
-        private ImageManager ImageManager = new ImageManager();
-        
+        private IImageManager imageManager;
+
+        public CarsController(IImageManager imageManager)
+        {
+            this.imageManager = imageManager;
+        }
+
         // GET: Cars
         [Authorize(Roles = "Admin")]
         [Authorize]
@@ -56,7 +62,7 @@ namespace CarRental.Controllers
         {
             if (ModelState.IsValid)
             {
-                string fileName = ImageManager.InsertImage(Image);
+                string fileName = imageManager.InsertImage(Image);
 
                 Car car = new Car()
                 {

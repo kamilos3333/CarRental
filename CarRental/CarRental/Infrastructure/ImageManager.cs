@@ -1,4 +1,5 @@
 ﻿using CarRental.Helpers;
+using CarRental.Infrastructure.Interface;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Web;
 
 namespace CarRental.Infrastructure
 {
-    public class ImageManager
+    public class ImageManager : IImageManager
     {
         public string InsertImage(HttpPostedFileBase upload)
         {

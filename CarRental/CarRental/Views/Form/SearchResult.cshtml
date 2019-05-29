@@ -34,20 +34,20 @@
     <img src="~/Content/loading-gif.gif" style="width: 230px;" />
 </div>
 <fieldset>
-    <legend>Car class</legend>
+    <legend id="carClass"></legend>
     <div style="margin-bottom: 15px;" id="border-car-class"></div>
 </fieldset>
-    <div id="border-car"></div>
+<div id="border-car"></div>
 
-    <div class="modal fade bd-example-modal-lg" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div id="detailsCostModal">
+<div class="modal fade bd-example-modal-lg" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div id="detailsCostModal">
 
-            </div>
         </div>
     </div>
+</div>
 
-    <script>
+<script>
     window.onload = function () {
         $('#loader').show();
         setTimeout(function () {
@@ -56,7 +56,8 @@
         url: '@Url.Action("getCars")',
         dataType: 'json',
         data: { id: '' },
-       success: function (data) {
+                success: function (data) {
+                    $('#carClass').append("Car classes");
            var items = "";
            $.each(data, function (i, item) {
                var path = "@Url.CarImgPath("")" + item.Photo;
@@ -136,4 +137,4 @@
     };
 
 
-    </script>
+</script>
