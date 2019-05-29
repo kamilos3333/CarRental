@@ -1,4 +1,4 @@
-﻿@model CarRental.Models.ContactDetails
+﻿@model CarRental.ViewModel.ContactDetailsViewModels
 
 @{
     ViewBag.Title = "ContactDetails";
@@ -8,7 +8,7 @@
 {
     @Html.AntiForgeryToken()
 
-    if (ViewBag.ModelUser == null)
+    if (!User.Identity.IsAuthenticated)
     {
         <br />
         <div class="card border-primary mb-3">
@@ -26,7 +26,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.ModelUser == null ? null : ViewBag.ModelUser.Name) } })
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -34,7 +34,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.ModelUser == null ? null : ViewBag.ModelUser.Surname) } })
+                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -42,7 +42,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.ModelUser == null ? null : ViewBag.ModelUser.Email) } })
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -50,14 +50,9 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Telephone, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.ModelUser == null ? null : ViewBag.ModelUser.Telephone) } })
+                    @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
                 </div>
-            </div>
-
-            <div class="custom-control custom-checkbox" style="margin-bottom: 10px;">
-                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                <label class="custom-control-label" for="customCheck1">I confirm I'm 25 years or older / 70 years or younger. I understand that if I do not meet these conditions, local surcharges may be applicable.</label>
             </div>
 
             <div class="form-group">

@@ -4,21 +4,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace CarRental.Models
+namespace CarRental.ViewModel
 {
-    public class ContactDetails
+    public class ContactDetailsViewModels
     {
-        [Key]
         public int ID_Cont { get; set; }
 
         public int ID_Reserv { get; set; }
 
         [Required]
-        [Display(Name = "Name")]
+        [Display(Name = "First Name")]
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Surname")]
+        [Display(Name = "Last Name")]
         public string Surname { get; set; }
 
         [Required]
@@ -31,7 +30,15 @@ namespace CarRental.Models
         [Display(Name = "Phone Number")]
         [StringLength(9)]
         public string Telephone { get; set; }
+
+        [Display(Name = "Full Name")]
+        public string FullName
+        {
+            get
+            {
+                return Surname + ", " + Name;
+            }
+        }
         
-        public virtual ReservForm ReservForm { get; set; }
     }
 }

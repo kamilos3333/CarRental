@@ -196,15 +196,16 @@
       <DependentUpon>201904131645190_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AdminViewModels.cs" />
+    <Compile Include="ViewModel\AccountViewModels.cs" />
+    <Compile Include="ViewModel\AdminViewModels.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\CarBody.cs" />
     <Compile Include="Models\CarClass.cs" />
     <Compile Include="Models\ContactDetails.cs" />
     <Compile Include="Models\ReservForm.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="ViewModel\ContactDetailsViewModels.cs" />
+    <Compile Include="ViewModel\ManageViewModels.cs" />
     <Compile Include="Models\Place.cs" />
     <Compile Include="Models\Transmission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,7 @@
 ﻿using CarRental.Infrastructure;
 using CarRental.Models;
 using CarRental.Repository;
+using CarRental.ViewModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -95,7 +96,7 @@ namespace CarRental.Controllers
             }
         }
         
-        public ActionResult ContactDetails(string id, UserViewModel model)
+        public ActionResult ContactDetails(string id)
         {
             if(Session["summaryCost"] != null)
             {
@@ -103,14 +104,14 @@ namespace CarRental.Controllers
                 {
                     var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                     ApplicationUser currentUser = UserManager.FindById(User.Identity.GetUserId());
-                    UserViewModel viewModel = new UserViewModel()
+                    ContactDetailsViewModels viewModel = new ContactDetailsViewModels()
                     {
                         Name = currentUser.Name,
                         Surname = currentUser.Surname,
                         Email = currentUser.Email,
                         Telephone = currentUser.PhoneNumber,
                     };
-                    ViewBag.ModelUser = viewModel;
+                    return View(viewModel);
                 }
                 else
                 {
@@ -121,11 +122,10 @@ namespace CarRental.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View();
         }
 
         [ValidateInput(false)]
-        public ActionResult InsertFormDb(ContactDetails contact)
+        public ActionResult InsertFormDb(ContactDetailsViewModels model)
         {
             using(var transaction = unitOfWork.ReservFormRepository.dbContext.Database.BeginTransaction())
             {
@@ -149,7 +149,7 @@ namespace CarRental.Controllers
                         };
                         unitOfWork.ReservFormRepository.Insert(reservForm);
                         unitOfWork.Save();
-                        InsertContactDb(reservForm.ID_Reserv, contact);
+                        InsertContactDb(reservForm.ID_Reserv, model);
                         transaction.Commit();
 
                         return RedirectToAction("Success", new { success = true });
@@ -166,14 +166,22 @@ namespace CarRental.Controllers
         }
 
         [ValidateInput(false)]
-        public void InsertContactDb(int id, ContactDetails contact)
+        public void InsertContactDb(int id, ContactDetailsViewModels model)
         {
             if (ModelState.IsValid)
             {
-                contact.ID_Reserv = id;
+                ContactDetails contactModel = new ContactDetails
+                {
+                    ID_Reserv = id,
+                    Name = model.Name,
+                    Surname = model.Surname,
+                    Email = model.Email,
+                    Telephone = model.Telephone
+                };
+                unitOfWork.ContactRepository.Insert(contactModel);
+                unitOfWork.Save();
             }
-            unitOfWork.ContactRepository.Insert(contact);
-            unitOfWork.Save();
+            
         }
         
         public JsonResult getCars(string filtering) //get car in search result
