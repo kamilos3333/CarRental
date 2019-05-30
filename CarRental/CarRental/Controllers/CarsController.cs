@@ -1,4 +1,5 @@
 ﻿using CarRental.Infrastructure;
+using CarRental.Infrastructure.Injection;
 using CarRental.Models;
 using CarRental.Repository;
 using CarRental.ViewModel;
