@@ -4,6 +4,7 @@ using CarRental.Repository;
 using CarRental.ViewModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -17,7 +18,6 @@ namespace CarRental.Controllers
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
         private CostManager costManager;
-        ApplicationDbContext context = new ApplicationDbContext();
 
         public FormController()
         {
@@ -102,14 +102,13 @@ namespace CarRental.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                    ApplicationUser currentUser = UserManager.FindById(User.Identity.GetUserId());
+                    var user = UserManager.FindById(User.Identity.GetUserId());
                     ContactDetailsViewModels viewModel = new ContactDetailsViewModels()
                     {
-                        Name = currentUser.Name,
-                        Surname = currentUser.Surname,
-                        Email = currentUser.Email,
-                        Telephone = currentUser.PhoneNumber,
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        Email = user.Email,
+                        Telephone = user.PhoneNumber,
                     };
                     return View(viewModel);
                 }
@@ -230,6 +229,19 @@ namespace CarRental.Controllers
             }
             else return HttpNotFound();
         }
-        
+
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
     }
 }

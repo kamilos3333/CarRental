@@ -1,4 +1,4 @@
-﻿using CarRental.Infrastructure;
+﻿using CarRental.Infrastructure.Injection;
 using CarRental.Models;
 using CarRental.Repository;
 using CarRental.ViewModel;
@@ -14,8 +14,13 @@ namespace CarRental.Controllers
     public class CarsController : Controller
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
-        private ImageManager ImageManager = new ImageManager();
-        
+        private IImageManager imageManager;
+
+        public CarsController(IImageManager _imageManager)
+        {
+            this.imageManager = _imageManager;
+        }
+
         // GET: Cars
         [Authorize(Roles = "Admin")]
         [Authorize]
@@ -30,7 +35,7 @@ namespace CarRental.Controllers
         public ActionResult _Details(int id)
         {
             Car car = unitOfWork.CarRepository.GetById(id);
-            return PartialView("_Details",car);
+            return PartialView("_Details", car);
         }
 
         // GET: Cars/Create
@@ -44,7 +49,7 @@ namespace CarRental.Controllers
             result.CarClasses = unitOfWork.CarClassRepository.GetAll().ToList();
             result.Transmissions = unitOfWork.TransmissionRepository.GetAll().ToList();
             result.Car = car;
-            
+
             return PartialView("_Create", result);
         }
 
@@ -56,7 +61,7 @@ namespace CarRental.Controllers
         {
             if (ModelState.IsValid)
             {
-                string fileName = ImageManager.InsertImage(Image);
+                string fileName = imageManager.InsertImage(Image);
 
                 Car car = new Car()
                 {
@@ -85,7 +90,7 @@ namespace CarRental.Controllers
             ViewBag.ID_Tran = new SelectList(unitOfWork.TransmissionRepository.GetAll(), "ID_Tran", "Name", car.ID_Tran);
             ViewBag.ID_CarBody = new SelectList(unitOfWork.CarBodyRepository.GetAll(), "ID_CarBody", "Name", car.ID_CarBody);
             ViewBag.ID_CarClass = new SelectList(unitOfWork.CarClassRepository.GetAll(), "ID_CarClass", "Name", car.ID_CarClass);
-            return PartialView("_Edit",car);
+            return PartialView("_Edit", car);
         }
 
         // POST: Cars/Edit/5
@@ -95,14 +100,14 @@ namespace CarRental.Controllers
         {
             unitOfWork.CarRepository.Update(car);
             unitOfWork.Save();
-            
+
             ViewBag.ID_Tran = new SelectList(unitOfWork.TransmissionRepository.GetAll(), "ID_Tran", "Name", car.ID_Tran);
             ViewBag.ID_CarBody = new SelectList(unitOfWork.CarBodyRepository.GetAll(), "ID_CarBody", "Name", car.ID_CarBody);
             ViewBag.ID_CarClass = new SelectList(unitOfWork.CarClassRepository.GetAll(), "ID_CarClass", "Name", car.ID_CarClass);
             return RedirectToAction("Index");
         }
 
-       
+
         // POST: Cars/Delete/5
         [HttpPost]
         public JsonResult Delete(int id, FormCollection collection)
@@ -119,7 +124,7 @@ namespace CarRental.Controllers
                 return Json(new { success = false, message = "Something wrong" }, JsonRequestBehavior.AllowGet);
             }
         }
-        
-        }
 
     }
+
+}
