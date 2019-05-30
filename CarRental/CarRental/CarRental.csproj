@@ -234,6 +234,7 @@
     <Compile Include="Models\ReservForm.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="ViewModel\ContactDetailsViewModels.cs" />
+    <Compile Include="ViewModel\EditFormViewModels.cs" />
     <Compile Include="ViewModel\ManageViewModels.cs" />
     <Compile Include="Models\Place.cs" />
     <Compile Include="Models\Transmission.cs" />
